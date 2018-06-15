@@ -1,0 +1,20 @@
+{
+  "name": "course-review-rest-api",
+  "version": "1.0.0",
+  "description": "A REST API that provides a way for users to review educational courses",
+  "main": "src/index.js",
+  "scripts": {
+    "start": "nodemon ./src/index.js localhost 5000"
+  },
+  "author": "Skye Aoki",
+  "license": "ISC",
+  "devDependencies": {
+    "nodemon": "^1.9.1"
+  },
+  "dependencies": {
+    "express": "^4.13.4",
+    "mongoose": "^5.1.4",
+    "mongoose-seeder": "^1.2.1",
+    "morgan": "^1.7.0"
+  }
+}
