@@ -6,7 +6,7 @@ const morgan = require('morgan');
 const mongoose = require('mongoose');
 
 const app = express();
-const indexRouter = require('./routes.js');
+const router = require('./routes');
 
 // set the port
 app.set('port', process.env.PORT || 5000);
@@ -30,12 +30,12 @@ db.once("open", () => {
   console.log('database connection succesful');
   setTimeout( function() {
     db.close();
-  }, 3000);
+  }, 9000);
 
 });
 
 // router
-app.use('/', indexRouter);
+app.use('/', router);
 
 // catch 404 and forward to global error handler
 app.use(function(req, res, next) {
