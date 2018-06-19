@@ -2,6 +2,8 @@
 const express = require('express');
 const router = express.Router();
 const User = require('../models/user').User;
+const Course = require('../models/course').Course;
+const Review = require('../models/review').Review;
 
 // GET users route
 router.get('/api/users', (req, res, next) => {
