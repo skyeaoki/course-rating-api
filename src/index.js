@@ -22,16 +22,12 @@ mongoose.connect('mongodb://localhost:27017/course-rating');
 
 const db = mongoose.connection;
 
-db.on("error", err => {
-  console.error("connection error:", err);
+db.on('error', err => {
+  console.error('connection error:', err);
 });
 
-db.once("open", () => {
-  console.log('database connection succesful');
-  setTimeout( function() {
-    db.close();
-  }, 9000);
-
+db.on('open', () => {
+  console.log('database connection successful');
 });
 
 // router

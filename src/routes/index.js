@@ -5,6 +5,28 @@ const User = require('../models/user').User;
 const Course = require('../models/course').Course;
 const Review = require('../models/review').Review;
 
+// test models
+router.get('/test', (req, res, next) => {
+  const jeff = new Course({
+    title: "Example Title",
+    description: "example description",
+    estimatedTime: "example time estimate",
+    materialsNeeded: "example materials",
+    steps: [{
+      stepNumber: 1,
+      title: "example step title",
+      description: "example step description"
+    }]
+  });
+  jeff.save( err => {
+    if(err) {
+      console.log(err);
+    } else {
+      console.log("course saved succesfully");
+    }
+  });
+});
+
 // GET users route
 router.get('/api/users', (req, res, next) => {
   // return the currently authenticated user
