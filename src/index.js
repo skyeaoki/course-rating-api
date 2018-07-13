@@ -4,9 +4,11 @@
 const express = require('express');
 const morgan = require('morgan');
 const mongoose = require('mongoose');
+const bodyParser = require('body-parser');
 
 const app = express();
-const router = require('./routes');
+const coursesRouter = require('./routes/courses.js');
+const usersRouter = require('./routes/users.js');
 
 // set the port
 app.set('port', process.env.PORT || 5000);
@@ -18,7 +20,7 @@ app.use(morgan('dev'));
 app.use('/', express.static('public'));
 
 // create a Mongoose connection to MongoDB database
-mongoose.connect('mongodb://localhost:27017/course-rating');
+mongoose.connect('mongodb://localhost:27017/course-api');
 
 const db = mongoose.connection;
 
@@ -26,26 +28,39 @@ db.on('error', err => {
   console.error('connection error:', err);
 });
 
-db.on('open', () => {
+db.once('open', () => {
   console.log('database connection successful');
 });
 
-// router
-app.use('/', router);
+// routers
+app.use('/api/users', usersRouter);
+app.use('/api/courses', coursesRouter);
 
-// catch 404 and forward to global error handler
-app.use(function(req, res, next) {
-  var err = new Error('File Not Found');
-  err.status = 404;
-  next(err);
+// send a friendly greeting for the root route
+app.get('/', (req, res) => {
+  res.json({
+    message: 'Welcome to the Course Review API'
+  });
 });
 
-// Express's global error handler
-app.use(function(err, req, res, next) {
-  res.status(err.status || 500);
-  res.render('error', {
+// uncomment this route in order to test the global error handler
+// app.get('/error', function (req, res) {
+//   throw new Error('Test error');
+// });
+
+// send 404 if no other route matched
+app.use((req, res) => {
+  res.status(404).json({
+    message: 'Route Not Found'
+  })
+})
+
+// global error handler
+app.use((err, req, res, next) => {
+  console.error(err.stack);
+  res.status(err.status || 500).json({
     message: err.message,
-    error: {}
+    error: err
   });
 });
 
