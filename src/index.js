@@ -52,8 +52,8 @@ app.get('/', (req, res) => {
 app.use((req, res) => {
   res.status(404).json({
     message: 'Route Not Found'
-  })
-})
+  });
+});
 
 // global error handler
 app.use((err, req, res, next) => {
@@ -65,6 +65,6 @@ app.use((err, req, res, next) => {
 });
 
 // start listening on our port
-var server = app.listen(app.get('port'), function() {
+const server = app.listen(app.get('port'), function() {
   console.log('Express server is listening on port ' + server.address().port);
 });

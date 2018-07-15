@@ -5,31 +5,23 @@ const User = require('../models/user').User;
 const Course = require('../models/course').Course;
 const Review = require('../models/review').Review;
 
-// test model validation
-router.get('/test', (req, res, next) => {
-  const jeff = new Course({
-    title: "Example Title",
-    description: "example description",
-    estimatedTime: "example time estimate",
-    materialsNeeded: "example materials",
-    steps: [{
-      stepNumber: 1,
-      title: "example step title",
-      description: "example step description"
-    }]
-  });
-  jeff.save( err => {
-    if(err) {
-      console.log(err);
-    } else {
-      console.log("course saved succesfully");
-    }
-  });
-});
-
 // GET all courses
 router.get('/', (req, res, next) => {
-  // return the Course '_id' and 'title' properties
+  // find all courses
+  Course.find({}, (err, courses) => {
+    // return just the course '_id' and 'title' properties
+    let allCourses = courses.map( course => {
+      return { _id: course._id, title: course.title };
+    });
+    // send the course ids and titles to the user
+    res.json(allCourses);
+    // pass errors to global handler or send 200 OK
+    if(err) {
+      return next(err);
+    } else {
+      res.sendStatus(200);
+    }
+  });
 });
 
 // GET specific course(s)
