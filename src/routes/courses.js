@@ -9,25 +9,25 @@ const Review = require('../models/review').Review;
 router.get('/', (req, res, next) => {
   // find all courses
   Course.find({}, (err, courses) => {
-    // return just the course '_id' and 'title' properties
     let allCourses = courses.map( course => {
-      return { _id: course._id, title: course.title };
+      // if only one course exists, load its related user and reviews documents
+      if(courses.length === 1) {
+        return {_id: course._id, title: course.title, user:course.user, reviews: course.reviews};
+      } else {
+        // otherwise return just the course '_id' and 'title' properties
+        return { _id: course._id, title: course.title };
+      }
     });
-    // send the course ids and titles to the user
+    // send the courses to the user
     res.json(allCourses);
-    // pass errors to global handler or send 200 OK
-    if(err) {
-      return next(err);
-    } else {
-      res.sendStatus(200);
-    }
+    // if error then pass to global error handler
+    if(err) return next(err);
   });
 });
 
 // GET specific course(s)
 router.get('/:courseId', (req, res, next) => {
   // return all Course properties and related documents for the provided course ID
-  // when returning a single course, use Mongoose population to load the related user and reviews documents
 });
 
 // Create a course
