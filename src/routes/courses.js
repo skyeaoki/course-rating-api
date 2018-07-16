@@ -28,15 +28,27 @@ router.get('/', (req, res, next) => {
 // GET specific course(s)
 router.get('/:courseId', (req, res, next) => {
   // return all Course properties and related documents for the provided course ID
+  Course.findById(req.params.courseId, (err, course) => {
+    res.json(course);
+    if(err) return next (err);
+  });
 });
 
 // Create a course
 router.post('/', (req, res, next) => {
   // create a course
-  // set the header location
-  // return no content
-  // use the next function to pass Mongoose validation errors to global error handler
-  // send Mongoose validation error with 400 status code to user
+  let course = new Course(req.body);
+  course.save((err, course) => {
+    // if validation errors exist send to user
+    if(err) {
+      err.status = 400;
+      return next(err);
+    } else {
+      // set the location header to '/'
+      res.location('/');
+      res.sendStatus('201');
+    }
+  });
 });
 
 // Update a course

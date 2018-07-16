@@ -16,6 +16,9 @@ app.set('port', process.env.PORT || 5000);
 // use morgan for http request logging
 app.use(morgan('dev'));
 
+// use body parser
+app.use(bodyParser.json());
+
 // setup the static route to serve files from the "public" folder
 app.use('/', express.static('public'));
 
@@ -60,7 +63,7 @@ app.use((err, req, res, next) => {
   console.error(err.stack);
   res.status(err.status || 500).json({
     message: err.message,
-    error: err
+    error: {}
   });
 });
 

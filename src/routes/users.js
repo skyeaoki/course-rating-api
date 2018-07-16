@@ -12,18 +12,23 @@ router.get('/', (req, res, next) => {
 
 // Create a user
 router.post('/', (req, res, next) => {
+  console.log(req.body);
   let user = new User(req.body);
   user.save((err, user) => {
-    // if validation error exists send to user
+    // if validation errors exist send to user
     if(err) {
       err.status = 400;
-      // pass Mongoose validation errors to global error handler
-      return next(err);
+      // handles error for non-unique email
+      if (err.name === 'MongoError' && err.code === 11000) {
+        return next(new Error('Email must be unique'));
+      } else {
+        // pass errors to global handler
+        return next(err);
+      }
     } else {
       // set the location header to '/'
       res.location('/');
-      // send status created (return no content)
-      res.sendStatus(201);
+      res.sendStatus('201');
     }
   });
 });
