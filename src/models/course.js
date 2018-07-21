@@ -18,28 +18,34 @@ const CourseSchema = new Schema({
   title: {
     type: String,
     required: true,
+    trim: true
   },
   description: {
     type: String,
     required: true,
+    trim: true
   },
   estimatedTime: {
-    type: String
+    type: String,
+    trim: true
   },
   materialsNeeded: {
-    type: String
+    type: String,
+    trim: true
   },
   steps: [{
     stepNumber: {
       type: Number
     },
     title: {
-      type: String,
+      type: String,,
       required: true
+      trim: true
     },
     description: {
       type: String,
-      required: true
+      required: true,
+      trim: true
     }
   }],
   reviews: [{ type: Schema.ObjectId, ref: 'Review' }]

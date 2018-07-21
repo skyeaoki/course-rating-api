@@ -16,7 +16,7 @@ const ReviewSchema = new Schema({
   },
   postedOn: {
     type: Date,
-    default: "now"
+    default: Date.now
   },
   rating: {
     type: Number,
@@ -25,7 +25,8 @@ const ReviewSchema = new Schema({
     max: 5
   },
   review: {
-    type: String
+    type: String,
+    trim: true
   }
 });
 

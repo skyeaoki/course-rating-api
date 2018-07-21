@@ -27,7 +27,7 @@ router.get('/', (req, res, next) => {
 
 // GET specific course(s)
 router.get('/:courseId', (req, res, next) => {
-  // return all Course properties and related documents for the provided course ID
+  // return corresponding course for provided course ID
   Course.findById(req.params.courseId, (err, course) => {
     res.json(course);
     if(err) return next (err);
@@ -36,16 +36,16 @@ router.get('/:courseId', (req, res, next) => {
 
 // Create a course
 router.post('/', (req, res, next) => {
-  // create a course
   let course = new Course(req.body);
+
   course.save((err, course) => {
-    // if validation errors exist send to user
+    // if validation errors exist pass to global handler
     if(err) {
       err.status = 400;
       return next(err);
     } else {
-      // set the location header to '/'
-      res.location('/');
+      // set the location header to ???
+      res.location('/api/courses');
       res.sendStatus('201');
     }
   });
@@ -53,18 +53,37 @@ router.post('/', (req, res, next) => {
 
 // Update a course
 router.put('/:courseId', (req, res, next) => {
-  // update a course and return no content
-  // use the next function to pass Mongoose validation errors to global error handler
-  // send Mongoose validation error with 400 status code to user
+  // find course by id
+  Course.findById(req.params.courseId, (err, course) => {
+    // if error finding course pass to global handler
+    if(err) return next(err);
+    // update course
+    course.update(req.body, error => {
+      // if validation errors exist pass to global error handler
+      if(error) {
+        err.status = 400;
+        return next(error);
+      } else {
+        res.sendStatus('204');
+      }
+    });
+  });
 });
 
 // Create a review
 router.post('/:courseId/reviews', (req, res, next) => {
-  // create a review for the specified course ID
-  // set the location header to the related course
-  // return no content
-  // use the next function to pass Mongoose validation errors to global error handler
-  // send Mongoose validation error with 400 status code to user
+  let review = new Review(req.body);
+  review.save((err, course) => {
+    // if validation errors exist pass to global handler
+    if(err) {
+      err.status = 400;
+      return next(err);
+    } else {
+      // set the location header to the related course
+      res.location('/api/courses/' + req.params.courseId);
+      res.sendStatus('201');
+    }
+  });
 });
 
 module.exports = router;

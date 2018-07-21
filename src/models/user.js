@@ -11,12 +11,14 @@ const UserSchema = new Schema({
   },
   fullName: {
     type: String,
-    required: true
+    required: true,
+    trim: true
   },
   emailAddress: {
     type: String,
     required: true,
     unique: true,
+    trim: true,
     // must be in valid email format
     match: [/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/, 'Please fill a valid email address']
   },

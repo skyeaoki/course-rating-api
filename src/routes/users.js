@@ -22,11 +22,11 @@ router.post('/', (req, res, next) => {
       if (err.name === 'MongoError' && err.code === 11000) {
         return next(new Error('Email must be unique'));
       } else {
-        // pass errors to global handler
+         // for other errors pass to global error handler
         return next(err);
       }
     } else {
-      // set the location header to '/'
+      // set the location header to the root route
       res.location('/');
       res.sendStatus('201');
     }
