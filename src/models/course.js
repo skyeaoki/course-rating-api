@@ -38,8 +38,8 @@ const CourseSchema = new Schema({
       type: Number
     },
     title: {
-      type: String,,
-      required: true
+      type: String,
+      required: true,
       trim: true
     },
     description: {

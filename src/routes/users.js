@@ -4,10 +4,12 @@ const router = express.Router();
 const User = require('../models/user').User;
 const Course = require('../models/course').Course;
 const Review = require('../models/review').Review;
+const mid = require('../middleware');
 
 // GET users route
-router.get('/', (req, res, next) => {
+router.get('/', mid.authenticateUser, (req, res, next) => {
   // return the currently authenticated user
+  console.log('req.user VALUE:', req.user);
 });
 
 // Create a user

@@ -4,6 +4,7 @@ const router = express.Router();
 const User = require('../models/user').User;
 const Course = require('../models/course').Course;
 const Review = require('../models/review').Review;
+//const middleware = require('../middleware').authenticateUser;
 
 // GET all courses
 router.get('/', (req, res, next) => {

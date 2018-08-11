@@ -1,6 +1,7 @@
 'use strict';
 
 const mongoose = require('mongoose');
+const bcrypt = require('bcrypt');
 const Schema = mongoose.Schema;
 
 const UserSchema = new Schema({
@@ -28,8 +29,38 @@ const UserSchema = new Schema({
   }
 });
 
-const User = mongoose.model('User', UserSchema);
+// authenticate input
+UserSchema.statics.authenticate = (email, password, callback) => {
+  User.findOne({ email: email })
+      .exec((error, user) => {
+        if(error) {
+          return callback(error);
+        } else if ( !user ) {
+          let err = new Error('User not found.');
+          err.status = 401;
+          return callback(err);
+        }
+        bcrypt.compare(password, user.password, (error, result) => {
+          console.log('RESULT:',  result);
+          if(result === true) {
+            return callback(null, user);
+          } else {
+            return callback(error);
+          }
+        });
+      });
+};
 
-// Create a pre save hook on the user schema that uses the bcrypt npm package to hash the user's password.
+// Hash password before saving to database
+UserSchema.pre('save', function(next) {
+  let user = this;
+  bcrypt.hash(user.password, 10, (err, hash) => {
+    if(err) return next(err);
+    user.password = hash;
+    next();
+  });
+});
+
+const User = mongoose.model('User', UserSchema);
 
 module.exports.User = User;
