@@ -40,16 +40,21 @@ UserSchema.statics.authenticate = function(email, password, callback) {
           err.status = 401;
           return callback(err);
         }
-        bcrypt.compare(password, user.password, (error, result) => {
-          console.log(password, user.password, result);
-          if(result === true) {
-            console.log('passwords match');
-            return callback(null, user);
-          } else {
-            console.log('passwords do not match');
-            return callback();
-          }
-        });
+        // check if password matches database's password directly (for seeded unencrypted passwords)
+        if(password === user.password) {
+          // return the user document
+          return callback(null, user);
+        } else {
+          // use bcrypt to compare the plain text password to the stored hashed password
+          bcrypt.compare(password, user.password, (error, result) => {
+            // if passwords match, return the user document
+            if(result === true) {
+              return callback(null, user);
+            } else {
+              return callback();
+            }
+          });
+        }
       })
 };
 

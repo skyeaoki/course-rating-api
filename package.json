@@ -4,11 +4,14 @@
   "description": "A REST API that provides a way for users to review educational courses",
   "main": "src/index.js",
   "scripts": {
+    "test": "mocha",
     "start": "nodemon ./src/index.js localhost 5000"
   },
   "author": "Skye Aoki",
   "license": "ISC",
   "devDependencies": {
+    "chai": "^4.1.2",
+    "mocha": "^5.2.0",
     "nodemon": "^1.9.1"
   },
   "dependencies": {

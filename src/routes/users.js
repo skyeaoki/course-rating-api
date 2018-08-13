@@ -8,8 +8,9 @@ const mid = require('../middleware');
 
 // GET users route
 router.get('/', mid.authenticateUser, (req, res, next) => {
-  // return the currently authenticated user
-  //console.log('req.user VALUE:', req.user);
+  setTimeout(function() {
+    res.send(req.user);
+  }, 3000);
 });
 
 // Create a user

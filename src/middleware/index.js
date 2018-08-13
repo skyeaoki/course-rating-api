@@ -7,7 +7,8 @@ const authenticateUser = (req, res, next) => {
   let userCredentials = auth(req);
   if(userCredentials) {
     User.authenticate(userCredentials.name, userCredentials.pass, (error, user) => {
-      console.log('user', user);
+      req.user = user;
+      console.log(req.user, user);
       if(error) return next(error);
     });
   }
