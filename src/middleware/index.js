@@ -6,8 +6,8 @@ const User = require('../models/user').User;
 const authenticateUser = (req, res, next) => {
   let userCredentials = auth(req);
   if(userCredentials) {
-    User.authenticate(req.body.email, req.body.password, (error, user) => {
-      console.log('error and user VALUE:', error, user);
+    User.authenticate(userCredentials.name, userCredentials.pass, (error, user) => {
+      console.log('user', user);
       if(error) return next(error);
     });
   }

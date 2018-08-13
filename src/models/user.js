@@ -30,25 +30,27 @@ const UserSchema = new Schema({
 });
 
 // authenticate input
-UserSchema.statics.authenticate = (email, password, callback) => {
-  User.findOne({ email: email })
-      .exec((error, user) => {
+UserSchema.statics.authenticate = function(email, password, callback) {
+  User.findOne({ emailAddress: email })
+      .exec(function (error, user) {
         if(error) {
           return callback(error);
-        } else if ( !user ) {
-          let err = new Error('User not found.');
+        } else if(!user) {
+          let err = new Error('User not found');
           err.status = 401;
           return callback(err);
         }
         bcrypt.compare(password, user.password, (error, result) => {
-          console.log('RESULT:',  result);
+          console.log(password, user.password, result);
           if(result === true) {
+            console.log('passwords match');
             return callback(null, user);
           } else {
-            return callback(error);
+            console.log('passwords do not match');
+            return callback();
           }
         });
-      });
+      })
 };
 
 // Hash password before saving to database
