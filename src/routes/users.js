@@ -6,16 +6,13 @@ const Course = require('../models/course').Course;
 const Review = require('../models/review').Review;
 const mid = require('../middleware');
 
-// GET users route
+// Return the currently authenticated user
 router.get('/', mid.authenticateUser, (req, res, next) => {
-  setTimeout(function() {
     res.send(req.user);
-  }, 3000);
 });
 
 // Create a user
 router.post('/', (req, res, next) => {
-  console.log(req.body);
   let user = new User(req.body);
   user.save((err, user) => {
     // if validation errors exist send to user
@@ -25,7 +22,7 @@ router.post('/', (req, res, next) => {
       if (err.name === 'MongoError' && err.code === 11000) {
         return next(new Error('Email must be unique'));
       } else {
-         // for other errors pass to global error handler
+        // for other errors pass to global error handler
         return next(err);
       }
     } else {

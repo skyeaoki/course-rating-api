@@ -30,12 +30,15 @@ const UserSchema = new Schema({
 });
 
 // authenticate input
-UserSchema.statics.authenticate = function(email, password, callback) {
+UserSchema.statics.authenticate = (email, password, callback) => {
+  // find the user associated with the given email
   User.findOne({ emailAddress: email })
-      .exec(function (error, user) {
+      .exec( (error, user) => {
+        // if error pass to global handler
         if(error) {
           return callback(error);
         } else if(!user) {
+        // if no user found pass this error to global handler
           let err = new Error('User not found');
           err.status = 401;
           return callback(err);
@@ -45,7 +48,7 @@ UserSchema.statics.authenticate = function(email, password, callback) {
           // return the user document
           return callback(null, user);
         } else {
-          // use bcrypt to compare the plain text password to the stored hashed password
+          // use bcrypt to compare the given password to the stored hashed password
           bcrypt.compare(password, user.password, (error, result) => {
             // if passwords match, return the user document
             if(result === true) {
@@ -59,7 +62,7 @@ UserSchema.statics.authenticate = function(email, password, callback) {
 };
 
 // Hash password before saving to database
-UserSchema.pre('save', function(next) {
+UserSchema.pre('save', next => {
   let user = this;
   bcrypt.hash(user.password, 10, (err, hash) => {
     if(err) return next(err);
@@ -69,5 +72,4 @@ UserSchema.pre('save', function(next) {
 });
 
 const User = mongoose.model('User', UserSchema);
-
 module.exports.User = User;
