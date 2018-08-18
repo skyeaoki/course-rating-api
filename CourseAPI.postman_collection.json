@@ -229,7 +229,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"_id\": \"57029ed4795118be119cc43d\",\n    \"title\": \"New Course Updated Again Hello\",\n    \"description\": \"My NEWER course description. And again.\",\n    \"user\": {\n        \"_id\": \"57029ed4795118be119cc437\"\n    },\n    \"steps\": [\n        {\n            \"title\": \"Step 1\",\n            \"description\": \"My first step.\"\n        }\n    ]\n}\n"
+					"raw": "{\n    \"_id\": \"57029ed4795118be119cc43d\",\n    \"title\": \"New Course Updated Again Hello\",\n    \"description\": \"My course description. And again.\",\n    \"user\": {\n        \"_id\": \"57029ed4795118be119cc437\"\n    },\n    \"steps\": [\n        {\n            \"title\": \"Step 1\",\n            \"description\": \"My first step.\"\n        }\n    ]\n}\n"
 				},
 				"description": ""
 			},

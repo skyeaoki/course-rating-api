@@ -54,21 +54,21 @@ router.post('/', (req, res, next) => {
 
 // Update a course
 router.put('/:courseId', (req, res, next) => {
-  // // find course by id
-  // Course.findById(req.params.courseId, (err, course) => {
-  //   // if error finding course pass to global handler
-  //   if(err) return next(err);
-  //   // update course
-  //   course.update(req.body, error => {
-  //     // if validation errors exist pass to global error handler
-  //     if(error) {
-  //       err.status = 400;
-  //       return next(error);
-  //     } else {
-  //       res.sendStatus('204');
-  //     }
-  //   });
-  // });
+  // find course by id
+  Course.findById(req.params.courseId, (err, course) => {
+    // if error finding course pass to global handler
+    if(err) return next(err);
+    // update course
+    course.update(req.body, error => {
+      // if validation errors exist pass to global error handler
+      if(error) {
+        error.status = 400;
+        return next(error);
+      } else {
+        res.sendStatus('204');
+      }
+    });
+  });
 });
 
 // Create a review
