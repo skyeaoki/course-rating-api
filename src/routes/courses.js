@@ -4,39 +4,25 @@ const router = express.Router();
 const User = require('../models/user').User;
 const Course = require('../models/course').Course;
 const Review = require('../models/review').Review;
-//const middleware = require('../middleware').authenticateUser;
+const mid = require('../middleware');
 
 // GET all courses
 router.get('/', (req, res, next) => {
   // find all courses
   Course.find({}, (err, courses) => {
+    // return only the id and title attributes of each course
     let allCourses = courses.map( course => {
-      // if only one course exists, load its related user and reviews documents
-      if(courses.length === 1) {
-        return {_id: course._id, title: course.title, user:course.user, reviews: course.reviews};
-      } else {
-        // otherwise return just the course '_id' and 'title' properties
-        return { _id: course._id, title: course.title };
-      }
+      return { _id: course._id, title: course.title };
     });
-    // send the courses to the user
-    res.json(allCourses);
     // if error then pass to global error handler
     if(err) return next(err);
-  });
-});
-
-// GET specific course(s)
-router.get('/:courseId', (req, res, next) => {
-  // return corresponding course for provided course ID
-  Course.findById(req.params.courseId, (err, course) => {
-    res.json(course);
-    if(err) return next (err);
+    // send the course names and ids to the user
+    res.json(allCourses);
   });
 });
 
 // Create a course
-router.post('/', (req, res, next) => {
+router.post('/', mid.authenticateUser, (req, res, next) => {
   let course = new Course(req.body);
 
   course.save((err, course) => {
@@ -52,8 +38,22 @@ router.post('/', (req, res, next) => {
   });
 });
 
+// GET a specific course
+router.get('/:courseId', (req, res, next) => {
+  Course.findById(req.params.courseId).
+  // populate the course doc with its review docs and the name of its user.
+  populate('user', 'fullName').
+  populate('reviews').
+  exec((err, course) => {
+    // if err pass to global handler
+    if(err) return next(err);
+    // send populated course document to user
+    res.json(course);
+  });
+});
+
 // Update a course
-router.put('/:courseId', (req, res, next) => {
+router.put('/:courseId', mid.authenticateUser, (req, res, next) => {
   // find course by id
   Course.findById(req.params.courseId, (err, course) => {
     // if error finding course pass to global handler
@@ -72,7 +72,7 @@ router.put('/:courseId', (req, res, next) => {
 });
 
 // Create a review
-router.post('/:courseId/reviews', (req, res, next) => {
+router.post('/:courseId/reviews', mid.authenticateUser, (req, res, next) => {
   let review = new Review(req.body);
   review.save((err, course) => {
     // if validation errors exist pass to global handler
