@@ -73,18 +73,34 @@ router.put('/:courseId', mid.authenticateUser, (req, res, next) => {
 
 // Create a review
 router.post('/:courseId/reviews', mid.authenticateUser, (req, res, next) => {
-  let review = new Review(req.body);
-  review.save((err, review) => {
-    // if validation errors exist pass to global handler
-    if(err) {
-      err.status = 400;
-      return next(err);
+  // First find the course document that is being reviewed
+  Course.findById(req.params.courseId, (err, course) => {
+    // if error finding course pass to global handler
+    if(err) return next(err);
+
+    // check if the user is trying to review their own course
+    if(course.user == req.body.user.id) {
+      // if so send validation error to global handler
+      let error = new Error('You cannot review your own course');
+      error.status = 400;
+      return next(error);
     } else {
-      // set the location header to the related course
-      res.location('/api/courses/' + req.params.courseId);
-      res.sendStatus('201');
+      // otherwise save the review
+      let review = new Review(req.body);
+
+      review.save((err, review) => {
+        // if validation errors exist pass to global handler
+        if(err) {
+          err.status = 400;
+          return next(err);
+        } else {
+          // set the location header to the related course
+          res.location('/api/courses/' + req.params.courseId);
+          res.sendStatus('201');
+        }
+      });
     }
-  });
+   });
 });
 
 module.exports = router;
