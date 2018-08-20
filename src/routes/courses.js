@@ -31,8 +31,8 @@ router.post('/', mid.authenticateUser, (req, res, next) => {
       err.status = 400;
       return next(err);
     } else {
-      // set the location header to ???
-      res.location('/api/courses');
+      // set the location header to created course
+      res.location('/api/courses/' + course.id);
       res.sendStatus('201');
     }
   });
@@ -74,7 +74,7 @@ router.put('/:courseId', mid.authenticateUser, (req, res, next) => {
 // Create a review
 router.post('/:courseId/reviews', mid.authenticateUser, (req, res, next) => {
   let review = new Review(req.body);
-  review.save((err, course) => {
+  review.save((err, review) => {
     // if validation errors exist pass to global handler
     if(err) {
       err.status = 400;

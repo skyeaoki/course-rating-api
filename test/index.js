@@ -9,6 +9,7 @@ describe('Mocha', function() {
 });
 
 describe('returnUserDocumentIfValidCredentials', function() {
+  let User = require('../models/user').User;
   it('should return the user if the credentials are valid', function() {
   });
 
