@@ -19,7 +19,7 @@ app.use(morgan('dev'));
 // use body parser
 app.use(bodyParser.json());
 
-// setup the static route to serve files from the "public" folder
+// setup the static route to serve files from the public folder
 app.use('/', express.static('public'));
 
 // create a Mongoose connection to MongoDB database
@@ -45,11 +45,6 @@ app.get('/', (req, res) => {
     message: 'Welcome to the Course Review API'
   });
 });
-
-// uncomment this route in order to test the global error handler
-// app.get('/error', function (req, res) {
-//   throw new Error('Test error');
-// });
 
 // send 404 if no other route matched
 app.use((req, res) => {
