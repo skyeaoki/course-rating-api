@@ -5,7 +5,10 @@
   "main": "src/index.js",
   "scripts": {
     "test": "mocha",
-    "start": "nodemon ./src/index.js localhost 5000"
+    "start": "nodemon ./src/index.js localhost 5000",
+    "seedCourses": "mongoimport --db course-api --collection courses --type=json --jsonArray --file courses.json",
+    "seedUsers": "mongoimport --db course-api --collection courses --type=json --jsonArray --file courses.json",
+    "seedReviews": "mongoimport --db course-api --collection courses --type=json --jsonArray --file courses.json"
   },
   "author": "Skye Aoki",
   "license": "ISC",
