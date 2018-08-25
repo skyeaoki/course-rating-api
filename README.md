@@ -1,5 +1,5 @@
 # course-rating-api
-A REST API that provides a way for users to review educational courses. (Requires Node.js & MongoDB to be already installed.)
+A REST API that provides a way for users to review educational courses. (Requires Node.js & MongoDB)
 
 - Run npm install  
 
