@@ -3,10 +3,10 @@ A REST API that provides a way for users to review educational courses. (Require
 1. Run:
 
        npm install  
+       
+2. Run the Mongo daemon
 
-2. Seed database if you would like to test the API with provided Postman script (instructions below) 
-
-3. Run the Mongo daemon  
+3. Seed database if you would like to test the API with provided Postman script (instructions below)  
 
 4. Run:
 
