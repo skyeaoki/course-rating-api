@@ -1,5 +1,5 @@
 # course-rating-api
-A REST API that provides a way for users to review educational courses. (Requires Node.js & MongoDB)
+A REST API that allows users to review educational courses. It includes bcrypt user authentication. (Requires Node.js & MongoDB)
 
 To test this API with the provided collection of Postman requests, please follow the instructions below:
 
