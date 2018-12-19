@@ -13,7 +13,7 @@ A REST API that provides a way for users to review educational courses. (Require
        npm start 
 
 
-## Seeding the database (optional):
+## Seeding the database (for testing through Postman):
 Navigate to the project's 'seed-data' folder in the console and run...
 
     mongoimport.exe --db course-api --collection courses --type=json --jsonArray --file courses.json
