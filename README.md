@@ -9,7 +9,8 @@ To test this API with the provided collection of Postman requests, please follow
        
 2. Run the Mongo daemon
 
-3. Seed the database:In the console navigate to the project's 'seed-data' folder and run...
+3. Seed the database:
+In the console navigate to the project's 'seed-data' folder and run...
 
        mongoimport.exe --db course-api --collection courses --type=json --jsonArray --file courses.json
        mongoimport.exe --db course-api --collection users --type=json --jsonArray --file users.json
