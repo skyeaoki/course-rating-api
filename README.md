@@ -24,4 +24,4 @@ To test this API with the provided collection of Postman requests, please follow
 6. Once the console has notified you the database connection was successful you may send Postman requests.
 
 
-(Postman tests provided by teamtreehouse.com)
+(Postman tests and seed data provided by teamtreehouse.com)
